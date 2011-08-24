@@ -1,0 +1,21 @@
+%div
+  %p
+    %b New ibit
+    = form_for [@hub, Ibit.new] do |f|
+      = f.label :title
+      = f.text_field :title
+      = f.label :description
+      = f.text_field :description
+      = f.label :image
+      = f.file_field :image
+      = f.submit
+  %p
+    %b New lbit
+    = form_for [@hub, Lbit.new] do |f|
+      = f.label :title
+      = f.text_field :title
+      = f.label :description
+      = f.text_field :description
+      = f.label :url
+      = f.text_field :url
+      = f.submit

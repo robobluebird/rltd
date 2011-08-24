@@ -1,0 +1,23 @@
+%h1 Listing lbits
+
+%table
+  %tr
+    %th Title
+    %th Description
+    %th Url
+    %th
+    %th
+    %th
+
+  - @lbits.each do |lbit|
+    %tr
+      %td= lbit.title
+      %td= lbit.description
+      %td= lbit.url
+      %td= link_to 'Show', lbit
+      %td= link_to 'Edit', edit_lbit_path(lbit)
+      %td= link_to 'Destroy', lbit, :confirm => 'Are you sure?', :method => :delete
+
+%br
+
+= link_to 'New Lbit', new_lbit_path

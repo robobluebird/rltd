@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b Title:
+  = @lbit.title
+%p
+  %b Description:
+  = @lbit.description
+%p
+  %b Url:
+  = @lbit.url
+
+= link_to 'Edit', edit_lbit_path(@lbit)
+\|
+= link_to 'Back', lbits_path

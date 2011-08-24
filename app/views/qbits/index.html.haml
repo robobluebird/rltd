@@ -1,0 +1,21 @@
+%h1 Listing qbits
+
+%table
+  %tr
+    %th Quotee
+    %th Quote
+    %th
+    %th
+    %th
+
+  - @qbits.each do |qbit|
+    %tr
+      %td= qbit.quotee
+      %td= qbit.quote
+      %td= link_to 'Show', qbit
+      %td= link_to 'Edit', edit_qbit_path(qbit)
+      %td= link_to 'Destroy', qbit, :confirm => 'Are you sure?', :method => :delete
+
+%br
+
+= link_to 'New Qbit', new_qbit_path

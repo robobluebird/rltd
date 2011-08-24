@@ -1,0 +1,12 @@
+%p#notice= notice
+
+%p
+  %b Quotee:
+  = @qbit.quotee
+%p
+  %b Quote:
+  = @qbit.quote
+
+= link_to 'Edit', edit_qbit_path(@qbit)
+\|
+= link_to 'Back', qbits_path

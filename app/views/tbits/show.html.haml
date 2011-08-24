@@ -1,0 +1,12 @@
+%p#notice= notice
+
+%p
+  %b Title:
+  = @tbit.title
+%p
+  %b Body:
+  = @tbit.body
+
+= link_to 'Edit', edit_tbit_path(@tbit)
+\|
+= link_to 'Back', tbits_path
