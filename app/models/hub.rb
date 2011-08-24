@@ -1,6 +1,5 @@
 class Hub
   include Mongoid::Document
-  include Mongoid::Associations::EmbeddedCallbacks
   include Mongoid::Timestamps
   field :label, :type => String
   field :weight, :type => Integer, default:10
