@@ -41,7 +41,7 @@
  *       // The blank required inputs are passed to this function in `elements`.
  *       return ! confirm("Would you like to submit the form with missing info?");
  *     });
-*/
+ */
 
 (function($, undefined) {
   // Shorthand to make it a little easier to call public rails functions from within rails.js
@@ -51,8 +51,8 @@
     // Link elements bound by jquery-ujs
     linkClickSelector: 'a[data-confirm], a[data-method], a[data-remote]',
 
-    // Select elements bound by jquery-ujs
-    selectChangeSelector: 'select[data-remote]',
+		// Select elements bound by jquery-ujs
+		selectChangeSelector: 'select[data-remote]',
 
     // Form elements bound by jquery-ujs
     formSubmitSelector: 'form',
@@ -98,8 +98,8 @@
     // Submits "remote" forms and links with ajax
     handleRemote: function(element) {
       var method, url, data,
-      crossDomain = element.data('cross-domain') || null,
-      dataType = element.data('type') || ($.ajaxSettings && $.ajaxSettings.dataType);
+        crossDomain = element.data('cross-domain') || null,
+        dataType = element.data('type') || ($.ajaxSettings && $.ajaxSettings.dataType);
 
       if (rails.fire(element, 'ajax:before')) {
 
@@ -119,9 +119,9 @@
           data = element.serialize();
           if (element.data('params')) data = data + "&" + element.data('params'); 
         } else {
-          method = element.data('method');
-          url = element.attr('href');
-          data = element.data('params') || null; 
+           method = element.data('method');
+           url = element.attr('href');
+           data = element.data('params') || null; 
         }
 
         options = {
@@ -154,11 +154,11 @@
     // <a href="/users/5" data-method="delete" rel="nofollow" data-confirm="Are you sure?">Delete</a>
     handleMethod: function(link) {
       var href = link.attr('href'),
-      method = link.data('method'),
-      csrf_token = $('meta[name=csrf-token]').attr('content'),
-      csrf_param = $('meta[name=csrf-param]').attr('content'),
-      form = $('<form method="post" action="' + href + '"></form>'),
-      metadata_input = '<input name="_method" value="' + method + '" type="hidden" />';
+        method = link.data('method'),
+        csrf_token = $('meta[name=csrf-token]').attr('content'),
+        csrf_param = $('meta[name=csrf-param]').attr('content'),
+        form = $('<form method="post" action="' + href + '"></form>'),
+        metadata_input = '<input name="_method" value="' + method + '" type="hidden" />';
 
       if (csrf_param !== undefined && csrf_token !== undefined) {
         metadata_input += '<input name="' + csrf_param + '" value="' + csrf_token + '" type="hidden" />';
@@ -169,10 +169,10 @@
     },
 
     /* Disables form elements:
-    - Caches element value in 'ujs:enable-with' data store
-    - Replaces element text with value of 'data-disable-with' attribute
-    - Adds disabled=disabled attribute
-*/
+      - Caches element value in 'ujs:enable-with' data store
+      - Replaces element text with value of 'data-disable-with' attribute
+      - Adds disabled=disabled attribute
+    */
     disableFormElements: function(form) {
       form.find(rails.disableSelector).each(function() {
         var element = $(this), method = element.is('button') ? 'html' : 'val';
@@ -183,9 +183,9 @@
     },
 
     /* Re-enables disabled form elements:
-    - Replaces element text with cached value from 'ujs:enable-with' data store (created in `disableFormElements`)
-    - Removes disabled attribute
-*/
+      - Replaces element text with cached value from 'ujs:enable-with' data store (created in `disableFormElements`)
+      - Removes disabled attribute
+    */
     enableFormElements: function(form) {
       form.find(rails.enableSelector).each(function() {
         var element = $(this), method = element.is('button') ? 'html' : 'val';
@@ -194,19 +194,19 @@
       });
     },
 
-    /* For 'data-confirm' attribute:
-    - Fires `confirm` event
-    - Shows the confirmation dialog
-    - Fires the `confirm:complete` event
+   /* For 'data-confirm' attribute:
+      - Fires `confirm` event
+      - Shows the confirmation dialog
+      - Fires the `confirm:complete` event
 
-    Returns `true` if no function stops the chain and user chose yes; `false` otherwise.
-    Attaching a handler to the element's `confirm` event that returns a `falsy` value cancels the confirmation dialog.
-    Attaching a handler to the element's `confirm:complete` event that returns a `falsy` value makes this function
-    return false. The `confirm:complete` event is fired whether or not the user answered true or false to the dialog.
-*/
+      Returns `true` if no function stops the chain and user chose yes; `false` otherwise.
+      Attaching a handler to the element's `confirm` event that returns a `falsy` value cancels the confirmation dialog.
+      Attaching a handler to the element's `confirm:complete` event that returns a `falsy` value makes this function
+      return false. The `confirm:complete` event is fired whether or not the user answered true or false to the dialog.
+   */
     allowAction: function(element) {
       var message = element.data('confirm'),
-      answer = false, callback;
+          answer = false, callback;
       if (!message) { return true; }
 
       if (rails.fire(element, 'confirm')) {
@@ -219,7 +219,7 @@
     // Helper function which checks for blank inputs in a form that match the specified CSS selector
     blankInputs: function(form, specifiedSelector, nonBlank) {
       var inputs = $(), input,
-      selector = specifiedSelector || 'input,textarea';
+        selector = specifiedSelector || 'input,textarea';
       form.find(selector).each(function() {
         input = $(this);
         // Collect non-blank inputs if nonBlank option is true, otherwise, collect blank inputs
@@ -270,7 +270,7 @@
     }
   });
 
-  $(rails.selectChangeSelector).live('change.rails', function(e) {
+	$(rails.selectChangeSelector).live('change.rails', function(e) {
     var link = $(this);
     if (!rails.allowAction(link)) return rails.stopEverything(e);
 
@@ -280,9 +280,9 @@
 
   $(rails.formSubmitSelector).live('submit.rails', function(e) {
     var form = $(this),
-    remote = form.data('remote') !== undefined,
-    blankRequiredInputs = rails.blankInputs(form, rails.requiredInputSelector),
-    nonBlankFileInputs = rails.nonBlankInputs(form, rails.fileInputSelector);
+      remote = form.data('remote') !== undefined,
+      blankRequiredInputs = rails.blankInputs(form, rails.requiredInputSelector),
+      nonBlankFileInputs = rails.nonBlankInputs(form, rails.fileInputSelector);
 
     if (!rails.allowAction(form)) return rails.stopEverything(e);
 
@@ -315,7 +315,7 @@
 
     // register the pressed submit button
     var name = button.attr('name'),
-    data = name ? {name:name, value:button.val()} : null;
+      data = name ? {name:name, value:button.val()} : null;
 
     button.closest('form').data('ujs:submit-button', data);
   });

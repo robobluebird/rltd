@@ -3,7 +3,6 @@
 %table
   %tr
     %th Label
-    %th Weight
     %th
     %th
     %th
@@ -11,7 +10,6 @@
   - @edges.each do |edge|
     %tr
       %td= edge.label
-      %td= edge.weight
       %td= link_to 'Show', edge
       %td= link_to 'Edit', edit_edge_path(edge)
       %td= link_to 'Destroy', edge, :confirm => 'Are you sure?', :method => :delete

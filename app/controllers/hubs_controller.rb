@@ -1,5 +1,5 @@
 class HubsController < ApplicationController
-  before_filter :authenticate_user!, :except => [:show, :index]
+  before_filter :authenticate_user!
   # GET /hubs
   # GET /hubs.xml
   def index

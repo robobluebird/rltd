@@ -1,30 +1,13 @@
 %p#notice= notice
-
 %p
   %b Title:
   = @ibit.title
 %p
   %b Description:
   = @ibit.description
-
--unless @ibit.hubs.empty?
-  %b hubs:
-  -@ibit.hubs.each do |hub|
-    %p
-      =hub.label
-      %span ->
-      %a(href="/hubs/#{hub.label}") #{hub.label}
 %hr
 %p
   = image_tag @ibit.image.mid.url
 %hr
--unless @ibit.hubs.empty?
-  %b hubs:
-  -@ibit.hubs.each do |hub|
-    %p
-      -hub.ibits.each do |ibit|
-        %span ++
-        =ibit.title
-
-= link_to 'Edit', edit_ibit_path(@ibit)
-= link_to 'Back', ibits_path
+-# = link_to 'Edit', edit_ibit_path(@ibit)
+-# = link_to 'Back', ibits_path

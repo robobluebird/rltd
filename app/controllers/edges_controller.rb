@@ -40,10 +40,12 @@ class EdgesController < ApplicationController
   # POST /edges
   # POST /edges.xml
   def create
+    raise params.inspect
     @edge = Edge.new(params[:edge])
 
     respond_to do |format|
       if @edge.save
+        raise @edge.inspect
         format.html { redirect_to(@edge, :notice => 'Edge was successfully created.') }
         format.xml  { render :xml => @edge, :status => :created, :location => @edge }
       else

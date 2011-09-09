@@ -177,7 +177,7 @@ DEPENDENCIES
   factory_girl_rails!
   haml
   haml-rails
-  jquery-rails
+  jquery-rails (~> 1.0.13)
   launchy
   mini_magick!
   mongoid (~> 2.1)

@@ -5,7 +5,7 @@ gem 'rails', '>= 3.0.9'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'jquery-rails'
+gem "jquery-rails", "~> 1.0.13"
 gem 'haml'
 gem 'devise'
 gem 'mongoid', '~> 2.1'
@@ -14,7 +14,7 @@ gem 'carrierwave', '= 0.5.4'
 gem 'mini_magick', :git => 'git://github.com/probablycorey/mini_magick.git'
 gem 'rmagick'
 gem 'voteable_mongo'
-gem "mongoid_misc", "~> 0.0.11"
+# gem "mongoid_misc", "~> 0.0.11"
 
 
 group :development do

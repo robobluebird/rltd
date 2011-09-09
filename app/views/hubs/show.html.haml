@@ -1,87 +1,94 @@
-%html{:lang => "en"}
-  %head
-    - stylesheet_link_tag "hub"
-    %title rltd | #{@hub.label}
-  %body
-    %p#notice= notice
-
-    %p.main_title
-      = @hub.label
+-# %p#notice= notice
+.container
+  .titlebar
+    %span.main_title= @hub.label
+    %span.littletext= link_to 'edit', edit_hub_path(@hub)
+    %span.littletext= link_to 'back', hubs_path
+  .content
     -unless @hub.lbits.empty?
-      .findent
-        %b lbits:
-        -@hub.lbits.each do |lbit|
-          %p
-            %a(href="#{lbit.url}") #{lbit.title}
-            %span #{lbit.votes_point} ▲ ▼
-        .bit_adder
-          %b New lbit
-          = form_for [@hub, Lbit.new] do |f|
-            = f.label :title
-            = f.text_field :title
-            = f.label :description
-            = f.text_field :description
-            = f.label :url
-            = f.text_field :url
-            = f.submit
+      .bit-type
+        links:
+      -@hub.lbits.each do |lbit|
+        %p.second-level
+          %a.lbit(href="#{lbit.url}") #{lbit.title}
+          %span
+            %span#lbit_points #{lbit.votes_point}
+            = link_to '▲', vote_hub_lbit_path(@hub,lbit), :class => 'up'
+            = link_to '▼', vote_hub_lbit_path(@hub,lbit), :class => 'down'
     -unless @hub.tbits.empty?
-      .findent
-        %b tbits:
-        -@hub.tbits.each do |tbit|
-          %p
-            =tbit.title
-          %p
-            =tbit.body
-            %span #{tbit.votes_point} ▲ ▼
-          %p
-        .bit_adder
-          %b New tbit
-          = form_for [@hub, Tbit.new] do |f|
-            = f.label :title
-            = f.text_field :title, :rows => 10
-            = f.label :body
-            = f.text_field :body
-            = f.submit
+      .bit-type
+        notes:
+      -@hub.tbits.each do |tbit|
+        %p.second-level
+          =tbit.title
+          %span
+            #{tbit.votes_point}
+            = link_to '▲', '/bit'
+            = link_to '▼', '/bit'
+        %p.second-level.notes
+          =tbit.body
     -unless @hub.qbits.empty?
-      .findent
-        %b qbits:
-        -@hub.qbits.each do |qbit|
-          %p
-            %em #{qbit.quotee}
-            %span said
-            %em #{qbit.quote}
-            %span #{qbit.votes_point} ▲ ▼
-        .bit_adder
-          %b New qbit
-          = form_for [@hub, Qbit.new] do |f|
-            = f.label :quotee
-            = f.text_field :quotee
-            = f.label :quote
-            = f.text_field :quote
-            = f.submit
-    -unless @hub.hubs.empty?
-      .findent
-        %b hubs:
-        -@hub.hubs.each do |hub|
-          %p
-            +
-            %a(href="/hubs/#{hub.label}") #{hub.label}
+      .bit-type
+        quotes:
+      -@hub.qbits.each do |qbit|
+        %p.second-level
+          %em #{qbit.quotee}
+          %span.littletext said
+          %em #{qbit.quote}
+          %span
+            #{qbit.votes_point}
+            = link_to '▲', '/bit'
+            = link_to '▼', '/bit'
     -unless @hub.ibits.empty?
-      .findent
-        %b ibits:
-        %br
+      .bit-type
+        images:
+      %p.second-level
         -@hub.ibits.each do |ibit|
-          = puts ibit
-      .bit_adder
-        %b New ibit
-        = form_for [@hub, Ibit.new] do |f|
-          = f.label :title
-          = f.text_field :title
-          = f.label :description
-          = f.text_field :description
-          = f.label :image
-          = f.file_field :image
-          = f.submit
+          %a{:href => "#{@hub.label}/ibits/#{ibit.id}"}
+            %img#thumb{:src => "#{ibit.image.url(:tiny)}", :alt => "#{ibit.title}"}
+          %span
+            #{ibit.votes_point}
+            = link_to '▲', '/bit'
+            = link_to '▼', '/bit'
 
-    = link_to 'Edit', edit_hub_path(@hub)
-    = link_to 'Back', hubs_path
+    <!-- Add a new bit here -->
+    -# .bit_adder_top
+      %b new link
+      = form_for [@hub, Lbit.new] do |f|
+        = f.label :title
+        = f.text_field :title
+        = f.label :description
+        = f.text_field :description
+        = f.label :url
+        = f.text_field :url
+        = f.submit
+    -# .bit_adder
+    -#   %b new note
+    -#   = form_for [@hub, Tbit.new] do |f|
+    -#     = f.label :title
+    -#     = f.text_field :title, :rows => 10
+    -#     = f.label :body
+    -#     = f.text_field :body
+    -#     = f.submit
+    -# .bit_adder
+    -#   %b new quote
+    -#   = form_for [@hub, Qbit.new] do |f|
+    -#     = f.label :quotee
+    -#     = f.text_field :quotee
+    -#     = f.label :quote
+    -#     = f.text_field :quote
+    -#     = f.submit
+    -# .bit_adder
+    -#   %b new image
+    -#   = form_for([@hub, Ibit.new], :html => {:multipart => true}) do |f|
+    -#     = f.label :title
+    -#     = f.text_field :title
+    -#     = f.label :description
+    -#     = f.text_field :description
+    -#     = f.label :image
+    -#     = f.file_field :image
+    -#     = f.submit
+  .footerbar
+    .footer-text
+      .littletext
+        Copyright &copy; 2011 - Zachary Schroeder

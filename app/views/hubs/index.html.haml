@@ -1,21 +1,19 @@
-%h1 Listing hubs
-
-%table
-  %tr
-    %th Label
-    %th Weight
-    %th
-    %th
-    %th
-
-  - @hubs.each do |hub|
-    %tr
-      %td= hub.label
-      %td= hub.weight
-      %td= link_to 'Show', hub
-      %td= link_to 'Edit', edit_hub_path(hub)
-      %td= link_to 'Destroy', hub, :confirm => 'Are you sure?', :method => :delete
-
-%br
-
-= link_to 'New Hub', new_hub_path
+.container
+  .titlebar
+    %span.main_title listing hubs
+    %span.little_text
+      = link_to 'new hub', new_hub_path
+  .content
+    %table
+      - @hubs.each do |hub|
+        %tr
+          %td.secondary_title
+            = hub.label
+            %span ------------------>
+          %td= link_to 'show', hub
+          %td= link_to 'edit', edit_hub_path(hub)
+          %td= link_to 'destroy', hub, :confirm => 'Are you sure?', :method => :delete
+  .footerbar
+    .footer-text
+      .littletext
+        Copyright &copy; 2011 - Zachary Schroeder

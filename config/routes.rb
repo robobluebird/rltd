@@ -1,18 +1,16 @@
 Rltd::Application.routes.draw do
   resources :hubs do
-    resources :qbits do
-      resources :votes
-    end
-    resources :tbits do
-      resources :votes
-    end
+    resources :qbits
+    resources :tbits
     resources :lbits do
-      resources :votes
+      member do
+        post 'vote'
+      end
     end
-    resources :ibits do
-      resources :votes
-    end
+    resources :ibits
   end
+
+  resources :edges
 
   match "/images/uploads/*path" => "gridfs#serve"
 
