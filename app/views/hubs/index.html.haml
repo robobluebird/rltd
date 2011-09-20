@@ -1,3 +1,4 @@
+%script{:type => "text/css", :src  => "hub.css"}
 .container
   .titlebar
     %span.main_title listing hubs
@@ -8,11 +9,10 @@
       - @hubs.each do |hub|
         %tr
           %td.secondary_title
-            = hub.label
-            %span ------------------>
-          %td= link_to 'show', hub
-          %td= link_to 'edit', edit_hub_path(hub)
-          %td= link_to 'destroy', hub, :confirm => 'Are you sure?', :method => :delete
+            = link_to hub.label, hub
+            %span.littletext --------------------->
+          %td
+            #{hub.ibits.count + hub.tbits.count + hub.qbits.count + hub.lbits.count} total bits
   .footerbar
     .footer-text
       .littletext

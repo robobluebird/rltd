@@ -22,9 +22,9 @@
         %p.second-level
           =tbit.title
           %span
-            #{tbit.votes_point}
-            = link_to '▲', '/bit'
-            = link_to '▼', '/bit'
+            %span#tbit_points #{tbit.votes_point}
+            = link_to '▲', vote_hub_tbit_path(@hub,tbit), :class => 'up'
+            = link_to '▼', vote_hub_tbit_path(@hub,tbit), :class => 'down'
         %p.second-level.notes
           =tbit.body
     -unless @hub.qbits.empty?
@@ -36,9 +36,9 @@
           %span.littletext said
           %em #{qbit.quote}
           %span
-            #{qbit.votes_point}
-            = link_to '▲', '/bit'
-            = link_to '▼', '/bit'
+            %span#qbit_points #{qbit.votes_point}
+            = link_to '▲', vote_hub_qbit_path(@hub,qbit), :class => 'up'
+            = link_to '▼', vote_hub_qbit_path(@hub,qbit), :class => 'down'
     -unless @hub.ibits.empty?
       .bit-type
         images:
@@ -47,21 +47,21 @@
           %a{:href => "#{@hub.label}/ibits/#{ibit.id}"}
             %img#thumb{:src => "#{ibit.image.url(:tiny)}", :alt => "#{ibit.title}"}
           %span
-            #{ibit.votes_point}
-            = link_to '▲', '/bit'
-            = link_to '▼', '/bit'
-
+            %span#ibit_points #{ibit.votes_point}
+            = link_to '▲', vote_hub_ibit_path(@hub,ibit), :class => 'up'
+            = link_to '▼', vote_hub_ibit_path(@hub,ibit), :class => 'down'
     <!-- Add a new bit here -->
     -# .bit_adder_top
-      %b new link
-      = form_for [@hub, Lbit.new] do |f|
-        = f.label :title
-        = f.text_field :title
-        = f.label :description
-        = f.text_field :description
-        = f.label :url
-        = f.text_field :url
-        = f.submit
+    -#   %b new link
+    -#   = form_for [@hub, Lbit.new] do |f|
+    -#     = f.hidden_field :posted_by, {:value => current_user.email}
+    -#     = f.label :title
+    -#     = f.text_field :title
+    -#     = f.label :description
+    -#     = f.text_field :description
+    -#     = f.label :url
+    -#     = f.text_field :url
+    -#     = f.submit
     -# .bit_adder
     -#   %b new note
     -#   = form_for [@hub, Tbit.new] do |f|
@@ -88,6 +88,8 @@
     -#     = f.label :image
     -#     = f.file_field :image
     -#     = f.submit
+  .sidebar
+    foo
   .footerbar
     .footer-text
       .littletext

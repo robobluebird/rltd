@@ -1,4 +1,4 @@
-%h1 Listing ibits
+%h1 listing ibits for the #{@hub.label} depot
 
 -# %table
 -#   %tr
@@ -17,7 +17,7 @@
 -#       %td= link_to 'Destroy', ibit, :confirm => 'Are you sure?', :method => :delete
 
 - @ibits.each do |ibit|
-  = link_to image_tag(ibit.image.thumb.url), "#{ibit.id}"
+  = link_to image_tag(ibit.image.thumb.url), "ibits/#{ibit.id}"
 %br
 
 -# = link_to 'New Ibit', new_ibit_path

@@ -1,22 +1,25 @@
 Rltd::Application.routes.draw do
   resources :hubs do
-    resources :qbits
-    resources :tbits
-    resources :lbits do
-      member do
-        post 'vote'
-      end
+    resources :qbits do
+      post :vote, :on => :member
     end
-    resources :ibits
+    resources :tbits do
+      post :vote, :on => :member
+    end
+    resources :lbits do
+      post :vote, :on => :member
+    end
+    resources :ibits do
+      post :vote, :on => :member
+    end
   end
-
-  resources :edges
 
   match "/images/uploads/*path" => "gridfs#serve"
 
   devise_for :users
 
-  root :to => "home#index"
+  root :to => "hubs#index"
+end
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -74,4 +77,3 @@ Rltd::Application.routes.draw do
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id(.:format)))'
-end

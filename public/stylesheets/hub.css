@@ -11,6 +11,9 @@ p.second-level {padding-left:60px}
 a.lbit {text-decoration:none;color:#537F63;}
 a.up {color:#954217;}
 a.down {color:#954217;}
+a {color:#9b859d;}
+a:hover {color:#954217}
+a:visited {color:#76D08F;}
 span {color:#a7b8e3;}
 img#thumb {opacity:0.5;}
 .container {background-color:#141414;color:#9b859d;position:relative;width:100%;margin:0;min-height:100%;}

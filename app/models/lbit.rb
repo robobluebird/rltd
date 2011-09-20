@@ -6,5 +6,6 @@ class Lbit
   field :title
   field :description
   field :url
+  field :posted_by
   embedded_in :hubs, :inverse_of => :lbits
 end
