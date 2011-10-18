@@ -5,5 +5,6 @@ class User
   include Mongo::Voter
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
-  has_and_belongs_to_many :hubs
+  field :points, type: Integer, default: 0
+  embeds_many :acks, as: :ackable
 end

@@ -1,11 +1,32 @@
 class LbitsController < ApplicationController
+  def index
+    @hub = Hub.find(params[:hub_id])
+    @lbits = @hub.lbits
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.xml  { render :xml => @hub.lbits }
+    end
+  end
+
+  def show
+    @hub = Hub.find(params[:hub_id])
+    @lbit = @hub.lbits.find(params[:id])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.xml  { render :xml => @lbit }
+    end
+  end
+
   # POST /lbits
   # POST /lbits.xml
-
   def create
     @hub = Hub.find(params[:hub_id])
-    @lbit = @hub.lbits.create!(params[:lbit])
-    redirect_to @hub, :notice => "lbit created!"
+    if @hub.lbits.create!(params[:lbit])
+      @hub.totalbits += 1
+      redirect_to @hub, :notice => "lbit created :)"
+    end
   end
 
   def vote
@@ -18,23 +39,32 @@ class LbitsController < ApplicationController
         if @lbit.votes["down"].include?(current_user.id)
           @lbit.votes["down"] -= [current_user.id]
           @lbit.votes["point"] += 2
-        elsif
-          !@lbit.votes["up"].include?(current_user.id)
+        else
           @lbit.votes["point"] += 1
           @lbit.votes["count"] += 1
         end
         @lbit.votes["up"] << current_user.id
+        @uprep = User.where(:email => @lbit.posted_by).first
+        if !current_user.email.eql? @uprep.email
+          @uprep.points += 1
+          @uprep.save
+        end
       end
     when "down"
       if !@lbit.votes["down"].include?(current_user.id)
         if @lbit.votes["up"].include?(current_user.id)
           @lbit.votes["up"] -= [current_user.id]
           @lbit.votes["point"] -= 2
-        elsif
+        else
           @lbit.votes["point"] -= 1
           @lbit.votes["count"] += 1
         end
         @lbit.votes["down"] << current_user.id
+        @uprep = User.where(:email => @lbit.posted_by).first
+        if !current_user.email.eql? @uprep.email
+          @uprep.points += 1
+          @uprep.save
+        end
       end
     end
     @lbit.save

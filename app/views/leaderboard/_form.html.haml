@@ -1,0 +1,10 @@
+= form_for @leaderboard do |f|
+  -if @leaderboard.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@leaderboard.errors.count, "error")} prohibited this leaderboard from being saved:"
+      %ul
+        - @leaderboard.errors.full_messages.each do |msg|
+          %li= msg
+
+  .actions
+    = f.submit 'Save'

@@ -1,13 +1,19 @@
-%p#notice= notice
-%p
-  %b Title:
-  = @ibit.title
-%p
-  %b Description:
-  = @ibit.description
-%hr
-%p
-  = image_tag @ibit.image.mid.url
-%hr
--# = link_to 'Edit', edit_ibit_path(@ibit)
--# = link_to 'Back', ibits_path
+.container
+  .titlebar
+    %span.maintitle= @ibit.title
+  .underbar
+    %span.littletext
+      = link_to 'edit', edit_hub_ibit_path(@hub)
+      = " - "
+    %span.littletext
+      = link_to 'back', hub_ibits_path(@hub)
+      = " - "
+    %span.littletext
+      = link_to 'sign out', destroy_user_session_path, :method => :delete
+    .littletext(style='float:right') #{current_user.email}
+  .content
+    %img{:src => @ibit.image.mid.url, :style => "display:block;margin:auto"}
+  .footerbar
+    .footertext
+      .littletext
+        Copyright &copy; 2011 - Zachary Schroeder

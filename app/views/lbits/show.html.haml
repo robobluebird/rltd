@@ -10,6 +10,7 @@
   %b Url:
   = @lbit.url
 
-= link_to 'Edit', edit_lbit_path(@lbit)
-\|
-= link_to 'Back', lbits_path
+-# = link_to 'Edit', edit_lbit_path(@lbit)
+= link_to '<< Back to hub', hub_path(@hub.id)
+%br
+= link_to '< To lbits listing', hub_lbits_path(@hub.id)

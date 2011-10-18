@@ -5,13 +5,6 @@
       %ul
         - @ibit.errors.full_messages.each do |msg|
           %li= msg
-
-  .field
-    = f.label :title
-    = f.text_field :title
-  .field
-    = f.label :description
-    = f.text_field :description
   .field
     = f.label :image
     = f.file_field :image

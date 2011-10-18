@@ -5,5 +5,6 @@ class Tbit
   voteable self, :up => 1, :down => -2
   field :title
   field :body
+  field :posted_by
   embedded_in :hubs, :inverse_of => :tbits
 end

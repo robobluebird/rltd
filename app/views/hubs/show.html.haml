@@ -1,35 +1,70 @@
--# %p#notice= notice
 .container
   .titlebar
-    %span.main_title= @hub.label
-    %span.littletext= link_to 'edit', edit_hub_path(@hub)
-    %span.littletext= link_to 'back', hubs_path
+    %span.maintitle= @hub.label
+  .underbar
+    %span.littletext
+      = link_to 'back', hubs_path
+      = " - "
+    %span.littletext
+      = link_to 'edit', edit_hub_path(@hub)
+      = " - "
+    %span.littletext
+      = link_to 'link this hub', 'none', :class => 'linkhubclick'
+    .username
+      #{current_user.email}
+      = " - "
+      = link_to 'sign out', destroy_user_session_path, :method => :delete
   .content
+    %p#notice= notice
+    .linkhub
+      = form_tag('/hubs/' + @hub.label + '/link') do
+        = "link a hub to this one @ /hubs/"
+        = text_field_tag 'hub_name'
+        = submit_tag 'link it up!', :id => 'link_it', :name => 'link_it'
+    %a.bittype{:href => hub_ibits_path(@hub.id)} images
+    %span.littletext= link_to 'add one!', 'none', :class => 'addanibit'
+    .bitadder.addibit
+      = form_for([@hub, Ibit.new], :html => {:multipart => true}) do |f|
+        = f.file_field :image
+        = f.submit
+    -unless @hub.ibits.empty?
+      %p.second-level
+        -@hub.ibits.each do |ibit|
+          %a{:href => hub_ibit_path(@hub, ibit)}
+            %img#thumb{:src => "#{ibit.image.url(:tiny)}", :alt => "#{ibit.title}"}
+          %span
+            %span#ibit_points #{ibit.votes_point}
+            = link_to '▲', vote_hub_ibit_path(@hub,ibit), :class => 'ibitup'
+            = link_to '▼', vote_hub_ibit_path(@hub,ibit), :class => 'ibitdown'
+    %a.bittype{:href => hub_lbits_path(@hub.id)} links
+    %a.littletext.addanlbit{:href => '#'} add one!
+    .bitadder.addlbit
+      = form_for [@hub, Lbit.new] do |f|
+        = f.hidden_field :posted_by, {:value => current_user.email}
+        = f.label :url
+        = f.text_field :url
+        = f.label :description
+        = f.text_field :description
+        = f.submit
     -unless @hub.lbits.empty?
-      .bit-type
-        links:
       -@hub.lbits.each do |lbit|
         %p.second-level
           %a.lbit(href="#{lbit.url}") #{lbit.title}
+          %a{:href => hub_lbit_path(@hub, lbit)} details
           %span
             %span#lbit_points #{lbit.votes_point}
-            = link_to '▲', vote_hub_lbit_path(@hub,lbit), :class => 'up'
-            = link_to '▼', vote_hub_lbit_path(@hub,lbit), :class => 'down'
-    -unless @hub.tbits.empty?
-      .bit-type
-        notes:
-      -@hub.tbits.each do |tbit|
-        %p.second-level
-          =tbit.title
-          %span
-            %span#tbit_points #{tbit.votes_point}
-            = link_to '▲', vote_hub_tbit_path(@hub,tbit), :class => 'up'
-            = link_to '▼', vote_hub_tbit_path(@hub,tbit), :class => 'down'
-        %p.second-level.notes
-          =tbit.body
+            = link_to '▲', vote_hub_lbit_path(@hub,lbit), :class => 'lbitup'
+            = link_to '▼', vote_hub_lbit_path(@hub,lbit), :class => 'lbitdown'
+    %a.bittype{:href => hub_qbits_path(@hub.id)} quotes
+    %a.littletext.addaqbit{:href => '#'} add one!
+    .bitadder.addqbit
+      = form_for [@hub, Qbit.new] do |f|
+        = f.label :quotee
+        = f.text_field :quotee
+        = f.label :quote
+        = f.text_field :quote
+        = f.submit
     -unless @hub.qbits.empty?
-      .bit-type
-        quotes:
       -@hub.qbits.each do |qbit|
         %p.second-level
           %em #{qbit.quotee}
@@ -37,60 +72,28 @@
           %em #{qbit.quote}
           %span
             %span#qbit_points #{qbit.votes_point}
-            = link_to '▲', vote_hub_qbit_path(@hub,qbit), :class => 'up'
-            = link_to '▼', vote_hub_qbit_path(@hub,qbit), :class => 'down'
-    -unless @hub.ibits.empty?
-      .bit-type
-        images:
-      %p.second-level
-        -@hub.ibits.each do |ibit|
-          %a{:href => "#{@hub.label}/ibits/#{ibit.id}"}
-            %img#thumb{:src => "#{ibit.image.url(:tiny)}", :alt => "#{ibit.title}"}
+            = link_to '▲', vote_hub_qbit_path(@hub,qbit), :class => 'qbitup'
+            = link_to '▼', vote_hub_qbit_path(@hub,qbit), :class => 'qbitdown'
+    %a.bittype{:href => hub_tbits_path(@hub.id)} notes
+    %a.littletext.addatbit{:href => '#'} add one!
+    .bitadder.addtbit
+      = form_for [@hub, Tbit.new] do |f|
+        = f.label :title
+        = f.text_field :title, :rows => 10
+        = f.label :body
+        = f.text_field :body
+        = f.submit
+    -unless @hub.tbits.empty?
+      -@hub.tbits.each do |tbit|
+        %p.second-level
+          = link_to tbit.title, hub_tbit_path(@hub,tbit)
           %span
-            %span#ibit_points #{ibit.votes_point}
-            = link_to '▲', vote_hub_ibit_path(@hub,ibit), :class => 'up'
-            = link_to '▼', vote_hub_ibit_path(@hub,ibit), :class => 'down'
-    <!-- Add a new bit here -->
-    -# .bit_adder_top
-    -#   %b new link
-    -#   = form_for [@hub, Lbit.new] do |f|
-    -#     = f.hidden_field :posted_by, {:value => current_user.email}
-    -#     = f.label :title
-    -#     = f.text_field :title
-    -#     = f.label :description
-    -#     = f.text_field :description
-    -#     = f.label :url
-    -#     = f.text_field :url
-    -#     = f.submit
-    -# .bit_adder
-    -#   %b new note
-    -#   = form_for [@hub, Tbit.new] do |f|
-    -#     = f.label :title
-    -#     = f.text_field :title, :rows => 10
-    -#     = f.label :body
-    -#     = f.text_field :body
-    -#     = f.submit
-    -# .bit_adder
-    -#   %b new quote
-    -#   = form_for [@hub, Qbit.new] do |f|
-    -#     = f.label :quotee
-    -#     = f.text_field :quotee
-    -#     = f.label :quote
-    -#     = f.text_field :quote
-    -#     = f.submit
-    -# .bit_adder
-    -#   %b new image
-    -#   = form_for([@hub, Ibit.new], :html => {:multipart => true}) do |f|
-    -#     = f.label :title
-    -#     = f.text_field :title
-    -#     = f.label :description
-    -#     = f.text_field :description
-    -#     = f.label :image
-    -#     = f.file_field :image
-    -#     = f.submit
-  .sidebar
-    foo
+            %span#tbit_points #{tbit.votes_point}
+            = link_to '▲', vote_hub_tbit_path(@hub,tbit), :class => 'tbitup'
+            = link_to '▼', vote_hub_tbit_path(@hub,tbit), :class => 'tbitdown'
+        %p.second-level.notes
+          = tbit.body
   .footerbar
-    .footer-text
+    .footertext
       .littletext
         Copyright &copy; 2011 - Zachary Schroeder

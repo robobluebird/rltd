@@ -1,12 +1,24 @@
-%p#notice= notice
-
-%p
-  %b Quotee:
-  = @qbit.quotee
-%p
-  %b Quote:
-  = @qbit.quote
-
-= link_to 'Edit', edit_qbit_path(@qbit)
-\|
-= link_to 'Back', qbits_path
+.container
+  .titlebar
+    %span.maintitle= "A quote about " + @hub.label
+  .underbar
+    %span.littletext
+      = link_to 'edit', edit_hub_qbit_path(@hub)
+      = " - "
+    %span.littletext
+      = link_to 'back', hub_qbits_path(@hub)
+      = " - "
+    %span.littletext
+      = link_to 'sign out', destroy_user_session_path, :method => :delete
+    .littletext(style='float:right') #{current_user.email}
+  .content
+    %p
+      %b Quotee:
+      = @qbit.quotee
+    %p
+      %b Quote:
+      = @qbit.quote
+  .footerbar
+    .footertext
+      .littletext
+        Copyright &copy; 2011 - Zachary Schroeder

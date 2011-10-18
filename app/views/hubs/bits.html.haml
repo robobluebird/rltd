@@ -1,0 +1,6 @@
+-unless @allbits.empty?
+  -@allbits.each do |bit|
+    %p= bit._type + " " + bit.created_at.to_s
+%p
+  = link_to '« Prev', bits_hub_path + "?page=" + @prev.to_s
+  = link_to 'Next »', bits_hub_path + "?page=" + @next.to_s

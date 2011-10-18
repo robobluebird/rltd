@@ -1,19 +1,42 @@
-%script{:type => "text/css", :src  => "hub.css"}
 .container
   .titlebar
-    %span.main_title listing hubs
-    %span.little_text
-      = link_to 'new hub', new_hub_path
+    %span.maintitle hubs
+  .underbar
+    %span.littletext
+      = link_to 'new', new_hub_path
+    .username
+      #{current_user.email}
+      = " - "
+      = link_to 'sign out', destroy_user_session_path, :method => :delete
   .content
-    %table
-      - @hubs.each do |hub|
-        %tr
-          %td.secondary_title
-            = link_to hub.label, hub
-            %span.littletext --------------------->
-          %td
-            #{hub.ibits.count + hub.tbits.count + hub.qbits.count + hub.lbits.count} total bits
+    .search
+      - form_tag '/suggestions', :method => 'get', :id => 'search_form', :class => 'search' do
+        = text_field_tag :term, params[:term], :id => "search_box", :value => 'search for a hub'
+        = submit_tag "search", :name => nil, :class => 'button', :id => "search_btn"
+    %span.bittype= "most bits"
+    %p.second-level
+      %ol
+        -@mostbits.each do |hub|
+          %li
+            %a.bindexitem{:href => hub_path(hub)} #{hub.label}
+            = " - " + (hub.ibits.count + hub.tbits.count + hub.qbits.count + hub.lbits.count).to_s + " total bits"
+    %span.bittype= "recently active"
+    %p.second-level
+      %ol
+        -@mostrecent.each do |hub|
+          %li
+            %a.bindexitem{:href => hub_path(hub)} #{hub.label}
+            =# " - "
+            =# hub.ibits.count + hub.tbits.count + hub.qbits.count + hub.lbits.count
+    %span.bittype= "youngest"
+    %p.second-level
+      %ol
+        -@youngest.each do |hub|
+          %li
+            %a.bindexitem{:href => hub_path(hub)} #{hub.label}
+        =# " - "
+        =# hub.ibits.count + hub.tbits.count + hub.qbits.count + hub.lbits.count
   .footerbar
-    .footer-text
+    .footertext
       .littletext
         Copyright &copy; 2011 - Zachary Schroeder

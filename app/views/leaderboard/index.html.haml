@@ -1,0 +1,16 @@
+.container
+  .titlebar
+    %span.main_title the leaderboards
+  .content
+    .second-level
+      -unless @leaders.empty?
+        -@leaders.each do |leader|
+          %span
+            = leader.email
+            = "----->"
+            = leader.points
+            %br
+  .footerbar
+    .footer-text
+      .littletext
+        Copyright &copy; 2011 - Zachary Schroeder

@@ -1,0 +1,17 @@
+.container
+  .titlebar
+    %span.maintitle hubs related to #{@hub.label}
+  .underbar
+    .littletext(style='float:right') #{current_user.email}
+  .content
+    %div
+      -unless @linked_hubs.empty?
+        -@linked_hubs.each do |linked_hub|
+          %span
+            = linked_hub.label
+  .sidebar
+  .footerbar
+    .footertext
+      .littletext
+        Copyright &copy; 2011 - Zachary Schroeder
+

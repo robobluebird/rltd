@@ -20,11 +20,9 @@ class IbitsController < ApplicationController
   end
 
   def create
-    # raise params.inspect
     @hub = Hub.find(params[:hub_id])
-    @ibit = Ibit.new(params[:ibit])
-    # @ibit.save
-    if @hub.ibits.push(@ibit)
+    if @hub.ibits.create!(params[:ibit])
+      @hub.totalbits += 1
       redirect_to @hub, :notice => "ibit created :)"
     end
   end
@@ -38,24 +36,33 @@ class IbitsController < ApplicationController
       if !@ibit.votes["up"].include?(current_user.id)
         if @ibit.votes["down"].include?(current_user.id)
           @ibit.votes["down"] -= [current_user.id]
-          @ibit.votes["point"] += 2
+          @ibit.votes["point"] += 1
         elsif
-          !@ibit.votes["up"].include?(current_user.id)
           @ibit.votes["point"] += 1
           @ibit.votes["count"] += 1
         end
         @ibit.votes["up"] << current_user.id
+        @uprep = User.where(:email => @lbit.posted_by).first
+        if !current_user.email.eql? @uprep.email
+          @uprep.points += 1
+          @uprep.save
+        end
       end
     when "down"
       if !@ibit.votes["down"].include?(current_user.id)
         if @ibit.votes["up"].include?(current_user.id)
           @ibit.votes["up"] -= [current_user.id]
-          @ibit.votes["point"] -= 2
+          @ibit.votes["point"] -= 1
         elsif
           @ibit.votes["point"] -= 1
           @ibit.votes["count"] += 1
         end
         @ibit.votes["down"] << current_user.id
+        @uprep = User.where(:email => @lbit.posted_by).first
+        if !current_user.email.eql? @uprep.email
+          @uprep.points += 1
+          @uprep.save
+        end
       end
     end
     @ibit.save

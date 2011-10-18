@@ -1,12 +1,25 @@
-%p#notice= notice
-
-%p
-  %b Title:
-  = @tbit.title
-%p
-  %b Body:
-  = @tbit.body
-
-= link_to 'Edit', edit_tbit_path(@tbit)
-\|
-= link_to 'Back', tbits_path
+.container
+  .titlebar
+    %span.maintitle= @tbit.title
+  .underbar
+    %span.littletext
+      = link_to 'edit', edit_hub_tbit_path(@hub)
+      = " - "
+    %span.littletext
+      = link_to 'back', hub_tbits_path(@hub)
+      = " - "
+    %span.littletext
+      = link_to 'sign out', destroy_user_session_path, :method => :delete
+    .littletext(style='float:right') #{current_user.email}
+  .content
+    %p.first-level
+      %span
+        %span#tbit_points #{@tbit.votes_point}
+        = link_to '▲', vote_hub_tbit_path(@hub,@tbit), :class => 'tbitup'
+        = link_to '▼', vote_hub_tbit_path(@hub,@tbit), :class => 'tbitdown'
+    %p.first-level.notes
+      =@tbit.body
+  .footerbar
+    .footertext
+      .littletext
+        Copyright &copy; 2011 - Zachary Schroeder

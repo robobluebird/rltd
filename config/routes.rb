@@ -1,22 +1,34 @@
 Rltd::Application.routes.draw do
   resources :hubs do
-    resources :qbits do
+    get :bits, :on => :member
+    post :link, :on => :member
+    get :linked, :on => :member
+    resources :qbits, :path => 'q' do
       post :vote, :on => :member
     end
-    resources :tbits do
+    resources :tbits, :path => 'n' do
       post :vote, :on => :member
     end
-    resources :lbits do
+    resources :lbits, :path => 'l' do
       post :vote, :on => :member
     end
-    resources :ibits do
+    resources :ibits, :path => 'i' do
       post :vote, :on => :member
     end
+    resources :acks
+  end
+
+  resources :leaderboard
+
+  resources :suggestions
+
+  devise_for :users, :path => 'accounts'
+
+  resources :users do
+    resources :acks
   end
 
   match "/images/uploads/*path" => "gridfs#serve"
-
-  devise_for :users
 
   root :to => "hubs#index"
 end

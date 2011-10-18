@@ -1,8 +1,8 @@
 class Hub
   include Mongoid::Document
   include Mongoid::Timestamps
-  field :label, :type => String
-  field :weight, :type => Integer, default:10
+  field :label
+  field :totalbits, type: Integer, default: 0
   key :label
   mount_uploader :image, ImageUploader
   embeds_many :ibits
@@ -10,9 +10,9 @@ class Hub
   embeds_many :qbits
   embeds_many :tbits
   has_and_belongs_to_many :hubs
-  has_and_belongs_to_many :edges
   validates_presence_of :label
   validates_uniqueness_of :label
+  embeds_many :acks, as: :ackable
   attr_accessor :title
   attr_accessor :description
 end

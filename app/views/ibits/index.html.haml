@@ -1,23 +1,15 @@
-%h1 listing ibits for the #{@hub.label} depot
+.container
+  .titlebar
+    %span.maintitle images in #{@hub.label}
+  .underbar
+    %span.littletext
+      = link_to 'back', hub_path(@hub)
+      = " - "
+    %span.littletext
+      = link_to 'sign out', destroy_user_session_path, :method => :delete
+    .littletext(style='float:right') #{current_user.email}
+  .content
+    - @ibits.each do |ibit|
+      = link_to image_tag(ibit.image.thumb.url), hub_ibit_path(@hub, ibit)
 
--# %table
--#   %tr
--#     %th Title
--#     %th Description
--#     %th
--#     %th
--#     %th
--#
--#   - @ibits.each do |ibit|
--#     %tr
--#       %td= ibit.title
--#       %td= ibit.description
--#       %td= link_to 'Show', ibit
--#       %td= link_to 'Edit', edit_ibit_path(ibit)
--#       %td= link_to 'Destroy', ibit, :confirm => 'Are you sure?', :method => :delete
-
-- @ibits.each do |ibit|
-  = link_to image_tag(ibit.image.thumb.url), "ibits/#{ibit.id}"
-%br
-
--# = link_to 'New Ibit', new_ibit_path
+  .footerbar
