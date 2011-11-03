@@ -1,4 +1,6 @@
 Rltd::Application.routes.draw do
+  resources :acks
+
   resources :hubs do
     get :bits, :on => :member
     post :link, :on => :member

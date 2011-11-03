@@ -1,6 +1,6 @@
 .container
   .titlebar
-    %span.maintitle= @ibit.title
+    %span.maintitle= "img"
   .underbar
     %span.littletext
       = link_to 'edit', edit_hub_ibit_path(@hub)
@@ -12,7 +12,7 @@
       = link_to 'sign out', destroy_user_session_path, :method => :delete
     .littletext(style='float:right') #{current_user.email}
   .content
-    %img{:src => @ibit.image.mid.url, :style => "display:block;margin:auto"}
+    %img{:src => @ibit.image.mid.url, :style => "border:0;display:block;margin:auto"}
   .footerbar
     .footertext
       .littletext

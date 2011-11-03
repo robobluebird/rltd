@@ -1,21 +1,21 @@
-.container
-  .titlebar
-    .maintitle= @hub.label + "'s acks"
-  .underbar
-    %span.littletext
-      = link_to 'back', hub_path(@hub)
-      = " - "
-    %span.littletext= link_to 'sign out', destroy_user_session_path, :method => :delete
-    .littletext(style='float:right') #{current_user.email}
-  .content
-    -unless @acks.empty?
-      .first-level
-        -@acks.each do |ack|
-          = ack.author
-          %br
-          .second-level
-            =ack.body
-  .footerbar
-    .footertext
-      .littletext
-        Copyright &copy; 2011 - Zachary Schroeder
+%h1 Listing acks
+
+%table
+  %tr
+    %th Sent by
+    %th Body
+    %th
+    %th
+    %th
+
+  - @acks.each do |ack|
+    %tr
+      %td= ack.sent_by
+      %td= ack.body
+      %td= link_to 'Show', ack
+      %td= link_to 'Edit', edit_ack_path(ack)
+      %td= link_to 'Destroy', ack, :confirm => 'Are you sure?', :method => :delete
+
+%br
+
+= link_to 'New Ack', new_ack_path

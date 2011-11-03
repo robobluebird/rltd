@@ -1,4 +1,9 @@
 class TbitsController < ApplicationController
+  def index
+    @hub = Hub.find(params[:hub_id])
+    @tbits = @hub.tbits
+  end
+
   def create
     @hub = Hub.find(params[:hub_id])
     if @hub.tbits.create!(params[:tbit])

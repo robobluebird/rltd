@@ -1,0 +1,14 @@
+= form_for @ack do |f|
+  -if @ack.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@ack.errors.count, "error")} prohibited this ack from being saved:"
+      %ul
+        - @ack.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :body
+    = f.text_area :body, :rows => 10
+  .actions
+    = f.submit 'create ack'
+

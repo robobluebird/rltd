@@ -1,0 +1,12 @@
+%p#notice= notice
+
+%p
+  %b Sent by:
+  = @ack.sent_by
+%p
+  %b Body:
+  = @ack.body
+
+= link_to 'Edit', edit_ack_path(@ack)
+\|
+= link_to 'Back', acks_path

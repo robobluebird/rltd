@@ -3,6 +3,13 @@ $(document).ready(function(){
     event.preventDefault();
     $('.linkhub').toggle();
   });
+  var $content = $('.mason');
+  $content.imagesLoaded(function(){
+    $content.masonry({
+      itemSelector:'.item',
+      columnWidth:140
+    });
+  });
   $('#link_it').click(function(event){
     // event.preventDefault();
     // var url = $(this).attr('href');

@@ -8,21 +8,14 @@
     %span.littletext= link_to 'sign out', destroy_user_session_path, :method => :delete
     .littletext(style='float:right') #{current_user.email}
   .content
-    %table
-      %tr
-        %th Title
-        %th Description
-        %th Url
-        %th Look
-        -# %th
-        -# %th
-
-      - @lbits.each do |lbit|
-        %tr
-          %td= lbit.title
-          %td= lbit.description
-          %td= lbit.url
-          %td= link_to 'Show', hub_lbit_path(@hub.id,lbit.id)
+    -@lbits.each do |lbit|
+      .spanner.item
+        %a.lbit(href="#{lbit.url}") #{lbit.title}
+        =#%a{:href => hub_lbit_path(@hub, lbit)} details
+        %span.votetext
+          %span#lbit_points #{lbit.votes_point}
+          = link_to '▲', vote_hub_lbit_path(@hub,lbit), :class => 'lbitup'
+          = link_to '▼', vote_hub_lbit_path(@hub,lbit), :class => 'lbitdown'
   .footerbar
     .footertext
       .littletext

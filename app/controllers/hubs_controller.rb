@@ -56,10 +56,18 @@ class HubsController < ApplicationController
   # GET /hubs/1.xml
   def show
     @hub = Hub.find(params[:id])
+    @itop = @hub.ibits.order_by([[:votes_point, :desc]]).limit(10)
+    @ltop = @hub.lbits.order_by([[:votes_point, :desc]]).limit(10)
+    @qtop = @hub.qbits.order_by([[:votes_point, :desc]]).limit(10)
+    @ttop = @hub.tbits.order_by([[:votes_point, :desc]]).limit(10)
+
+    @totes = @itop + @ltop + @qtop + @ttop
+
+    @totes.sort_by! { rand }
 
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render :xml => @hub }
+      format.json  { render :json => @hub }
     end
   end
 

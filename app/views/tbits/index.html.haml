@@ -1,21 +1,23 @@
-%h1 Listing tbits
-
-%table
-  %tr
-    %th Title
-    %th Body
-    %th
-    %th
-    %th
-
-  - @tbits.each do |tbit|
-    %tr
-      %td= tbit.title
-      %td= tbit.body
-      %td= link_to 'Show', tbit
-      %td= link_to 'Edit', edit_tbit_path(tbit)
-      %td= link_to 'Destroy', tbit, :confirm => 'Are you sure?', :method => :delete
-
-%br
-
-= link_to 'New Tbit', new_tbit_path
+.container
+  .titlebar
+    .maintitle= @hub.label + "'s notes"
+  .underbar
+    %span.littletext
+      = link_to 'back', hub_path(@hub)
+      = " - "
+    %span.littletext= link_to 'sign out', destroy_user_session_path, :method => :delete
+    .littletext(style='float:right') #{current_user.email}
+  .content
+    -@tbits.each do |tbit|
+      .texter.item
+        =#%a{:href => hub_tbit_path(@hub,tbit)} #{tbit.title}
+        %span.votetext
+          %span#tbit_points #{tbit.votes_point}
+          = link_to '▲', vote_hub_tbit_path(@hub,tbit), :class => 'tbitup'
+          = link_to '▼', vote_hub_tbit_path(@hub,tbit), :class => 'tbitdown'
+        %p
+          = tbit.body
+  .footerbar
+    .footertext
+      .littletext
+        Copyright &copy; 2011 - Zachary Schroeder

@@ -1,0 +1,5 @@
+.linkhub
+  = form_tag('/hubs/' + hub.label + '/link') do
+    = "link a hub to this one @ /hubs/"
+    = text_field_tag 'hub_name'
+    = submit_tag 'link it up!', :id => 'link_it', :name => 'link_it'

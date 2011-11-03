@@ -9,10 +9,8 @@ class Hub
   embeds_many :lbits
   embeds_many :qbits
   embeds_many :tbits
-  has_and_belongs_to_many :hubs
   validates_presence_of :label
   validates_uniqueness_of :label
-  embeds_many :acks, as: :ackable
+  has_and_belongs_to_many :acks
   attr_accessor :title
-  attr_accessor :description
 end

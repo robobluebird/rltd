@@ -1,0 +1,17 @@
+.container
+  .titlebar
+    .maintitle new ack
+  .underbar
+    %span.littletext
+      = link_to 'back', acks_path
+      = " - "
+    %span.littletext= link_to 'sign out', destroy_user_session_path, :method => :delete
+    .username #{current_user.email}
+  .content
+    .signinbox
+      = render 'form'
+  .footerbar
+    .footertext
+      .littletext
+        Copyright &copy; 2011 - Zachary Schroeder
+

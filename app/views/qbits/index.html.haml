@@ -8,21 +8,15 @@
     %span.littletext= link_to 'sign out', destroy_user_session_path, :method => :delete
     .littletext(style='float:right') #{current_user.email}
   .content
-    %table
-      %tr
-        %th Quotee
-        %th Quote
-        %th View
-        -# %th
-        -# %th
-
-      - @qbits.each do |qbit|
-        %tr
-          %td= qbit.quotee
-          %td= qbit.quote
-          %td= link_to 'Show', hub_qbit_path(@hub.id,qbit.id)
-          -# %td= link_to 'Edit', edit_qbit_path(@hub.id,qbit.id)
-          -# %td= link_to 'Destroy', qbit, :confirm => 'Are you sure?', :method => :delete
+    -@qbits.each do |qbit|
+      .quoter.item
+        %em #{qbit.quotee}
+        %span.littletext said
+        %em #{qbit.quote}
+        %span.votetext
+          %span#qbit_points #{qbit.votes_point}
+          = link_to '▲', vote_hub_qbit_path(@hub,qbit), :class => 'qbitup'
+          = link_to '▼', vote_hub_qbit_path(@hub,qbit), :class => 'qbitdown'
   .footerbar
     .footertext
       .littletext

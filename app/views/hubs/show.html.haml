@@ -15,48 +15,53 @@
       = " - "
       = link_to 'sign out', destroy_user_session_path, :method => :delete
   .content
+    .floaty.item
+      add something
+      %ul.addbox
+        %li.addlink
+          %a{:href => "#", :alt => "link"} link
+        %li.addlink
+          %a{:href => "#", :alt => "img"} image
+        %li.addlink
+          %a{:href => "#", :alt => "note"} note
+        %li.addlink
+          %a{:href => "#", :alt => "quo"} quote
     %p#notice= notice
-    .linkhub
-      = form_tag('/hubs/' + @hub.label + '/link') do
-        = "link a hub to this one @ /hubs/"
-        = text_field_tag 'hub_name'
-        = submit_tag 'link it up!', :id => 'link_it', :name => 'link_it'
-    %a.bittype{:href => hub_ibits_path(@hub.id)} images
-    %span.littletext= link_to 'add one!', 'none', :class => 'addanibit'
+    =render :partial => "link", :locals => {:hub => @hub}
+    =#%a.bittype{:href => hub_ibits_path(@hub.id)} images
+    =#%span.littletext= link_to 'add one!', 'none', :class => 'addanibit'
     .bitadder.addibit
       = form_for([@hub, Ibit.new], :html => {:multipart => true}) do |f|
         = f.file_field :image
         = f.submit
-    -unless @hub.ibits.empty?
-      %p.second-level
-        -@hub.ibits.each do |ibit|
+    -unless @itop.empty?
+      -@itop.each do |ibit|
+        .image.item
           %a{:href => hub_ibit_path(@hub, ibit)}
-            %img#thumb{:src => "#{ibit.image.url(:tiny)}", :alt => "#{ibit.title}"}
-          %span
+            %img#thumb{:src => "#{ibit.image.url(:tiny)}"}
+          %span.votetext
             %span#ibit_points #{ibit.votes_point}
             = link_to '▲', vote_hub_ibit_path(@hub,ibit), :class => 'ibitup'
             = link_to '▼', vote_hub_ibit_path(@hub,ibit), :class => 'ibitdown'
-    %a.bittype{:href => hub_lbits_path(@hub.id)} links
-    %a.littletext.addanlbit{:href => '#'} add one!
+    =#%a.bittype{:href => hub_lbits_path(@hub.id)} links
+    =#%a.littletext.addanlbit{:href => '#'} add one!
     .bitadder.addlbit
       = form_for [@hub, Lbit.new] do |f|
         = f.hidden_field :posted_by, {:value => current_user.email}
         = f.label :url
         = f.text_field :url
-        = f.label :description
-        = f.text_field :description
         = f.submit
-    -unless @hub.lbits.empty?
-      -@hub.lbits.each do |lbit|
-        %p.second-level
+    -unless @ltop.empty?
+      -@ltop.each do |lbit|
+        .spanner.item
           %a.lbit(href="#{lbit.url}") #{lbit.title}
-          %a{:href => hub_lbit_path(@hub, lbit)} details
-          %span
+          =#%a{:href => hub_lbit_path(@hub, lbit)} details
+          %span.votetext
             %span#lbit_points #{lbit.votes_point}
             = link_to '▲', vote_hub_lbit_path(@hub,lbit), :class => 'lbitup'
             = link_to '▼', vote_hub_lbit_path(@hub,lbit), :class => 'lbitdown'
-    %a.bittype{:href => hub_qbits_path(@hub.id)} quotes
-    %a.littletext.addaqbit{:href => '#'} add one!
+    =#%a.bittype{:href => hub_qbits_path(@hub.id)} quotes
+    =#%a.littletext.addaqbit{:href => '#'} add one!
     .bitadder.addqbit
       = form_for [@hub, Qbit.new] do |f|
         = f.label :quotee
@@ -64,35 +69,35 @@
         = f.label :quote
         = f.text_field :quote
         = f.submit
-    -unless @hub.qbits.empty?
-      -@hub.qbits.each do |qbit|
-        %p.second-level
+    -unless @qtop.empty?
+      -@qtop.each do |qbit|
+        .quoter.item
           %em #{qbit.quotee}
           %span.littletext said
           %em #{qbit.quote}
-          %span
+          %span.votetext
             %span#qbit_points #{qbit.votes_point}
             = link_to '▲', vote_hub_qbit_path(@hub,qbit), :class => 'qbitup'
             = link_to '▼', vote_hub_qbit_path(@hub,qbit), :class => 'qbitdown'
-    %a.bittype{:href => hub_tbits_path(@hub.id)} notes
-    %a.littletext.addatbit{:href => '#'} add one!
+    =#%a.bittype{:href => hub_tbits_path(@hub.id)} notes
+    =#%a.littletext.addatbit{:href => '#'} add one!
     .bitadder.addtbit
       = form_for [@hub, Tbit.new] do |f|
         = f.label :title
-        = f.text_field :title, :rows => 10
+        = f.text_field :title
         = f.label :body
-        = f.text_field :body
+        = f.text_area :body, :rows => 10
         = f.submit
-    -unless @hub.tbits.empty?
-      -@hub.tbits.each do |tbit|
-        %p.second-level
-          = link_to tbit.title, hub_tbit_path(@hub,tbit)
-          %span
+    -unless @ttop.empty?
+      -@ttop.each do |tbit|
+        .texter.item
+          =#%a{:href => hub_tbit_path(@hub,tbit)} #{tbit.title}
+          %span.votetext
             %span#tbit_points #{tbit.votes_point}
             = link_to '▲', vote_hub_tbit_path(@hub,tbit), :class => 'tbitup'
             = link_to '▼', vote_hub_tbit_path(@hub,tbit), :class => 'tbitdown'
-        %p.second-level.notes
-          = tbit.body
+          %p
+            = tbit.body
   .footerbar
     .footertext
       .littletext
